@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.aspnetcore.identity" Version="2.3.0" />
+    <PackageReference Include="Microsoft.aspnetcore.identity.entityframeworkcore" Version="8.0.0" />
     <PackageReference Include="Microsoft.entityframeworkcore.sqlserver" Version="9.0.1" />
   </ItemGroup>
 
