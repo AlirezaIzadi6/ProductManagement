@@ -4,6 +4,7 @@ using Domain.Entities;
 using Application.DTOs;
 using Application.Features.Products.get;
 using Application.Interfaces;
+using Application.Wrappers;
 using UnitTests.Fixtures;
 
 namespace UnitTests.Application.Features.Products;
@@ -35,8 +36,23 @@ public class ProductQueriesTest
         var query = new GetProductByIdQuery(productId);
         var result = await handler.Handle(query, new CancellationToken());
 
-        Assert.NotNull(result);
         Assert.NotNull(result.Data);
+        Assert.True(result.Succeded);
         Assert.Equal(productId, result.Data.Id);
+    }
+
+    [Fact]
+    public async Task Get_WithNonExistingId_ReturnError()
+    {
+        int nonExistingId = 0;
+        mockRepository.Setup(rep => rep.GetByIdAsync(nonExistingId))
+            .ReturnsAsync((Product?)null);
+        var handler = new GetProductByIdHandler(mockRepository.Object, mockMapper.Object);
+
+        var query = new GetProductByIdQuery(nonExistingId);
+        var response = await handler.Handle(query, new CancellationToken());
+
+        Assert.False(response.Succeded);
+        Assert.NotNull(response.Message);
     }
 }
