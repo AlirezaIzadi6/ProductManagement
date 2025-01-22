@@ -3,10 +3,10 @@ using Application.Interfaces;
 
 namespace Application.Features.Products.Update;
 
-public class CreateProductCommandValidator : AbstractValidator<UpdateProductCommand>
+public class UpdateProductCommandValidator : AbstractValidator<UpdateProductCommand>
 {
     private readonly IProductRepositoryAsync _repository;
-    public CreateProductCommandValidator(IProductRepositoryAsync repository)
+    public UpdateProductCommandValidator(IProductRepositoryAsync repository)
     {
         _repository = repository;
 
