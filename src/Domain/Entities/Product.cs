@@ -9,4 +9,5 @@ public class Product : BaseEntity
     public string ManufactureEmail { get; set; }
     public string ManufacturePhone { get; set; }
     public bool IsAvailable { get; set; }
+    public string CreatedByUserId { get; set; }
 }
