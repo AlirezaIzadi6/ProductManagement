@@ -26,4 +26,30 @@ public static class ProductTestData
         ManufacturePhone = "1234567890",
         IsAvailable = true,
     };
+
+    public static readonly Product ProductSample2 = new Product
+    {
+        Id = 2,
+        CreatedByUserId = new Guid().ToString(),
+        Name = "Another test",
+        ProduceDate = DateOnly.FromDateTime(DateTime.Now),
+        ManufactureEmail = "test2@test.com",
+        ManufacturePhone = "1112223334",
+        IsAvailable = true,
+    };
+
+
+    public static readonly ProductDto ProductDtoSample2 = new ProductDto
+    {
+        Id = 2,
+        CreatedByUserId = new Guid().ToString(),
+        Name = "Another test",
+        ProduceDate = DateOnly.FromDateTime(DateTime.Now),
+        ManufactureEmail = "test2@test.com",
+        ManufacturePhone = "1112223334",
+        IsAvailable = true,
+    };
+
+    public static readonly IEnumerable<Product> ProductListSample = new List<Product> { ProductSample, ProductSample2 };
+    public static readonly IEnumerable<ProductDto> ProductDtoListSample = new List<ProductDto> { ProductDtoSample, ProductDtoSample2 };
 }
