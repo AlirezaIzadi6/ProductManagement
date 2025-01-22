@@ -1,7 +1,7 @@
 ﻿using Domain.Entities;
 using Application.Wrappers;
 
-namespace UnitTests;
+namespace UnitTests.Application.Wrappers;
 
 public class ResponseTest
 {
