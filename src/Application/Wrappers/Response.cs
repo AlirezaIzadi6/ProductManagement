@@ -9,6 +9,10 @@ public class Response<T>
     public List<string>? Errors { get; set; }
     public T? Data { get; set; }
 
+    public Response()
+    {
+    }
+
     public Response(string message)
     {
         Succeded = false;
@@ -21,4 +25,7 @@ public class Response<T>
         Data = data;
         Message = message;
     }
+
+    public static readonly Response<T> SuccessResponse = new Response<T> { Succeded=true };
+    public static readonly Response<T> FailiorResponse = new Wrappers.Response<T> { Succeded=false };
 }
