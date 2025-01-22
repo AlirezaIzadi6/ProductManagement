@@ -3,6 +3,7 @@ using AutoMapper;
 using Domain.Entities;
 using Application.DTOs;
 using Application.Features.Products.get;
+using Application.Features.Products.GetAll;
 using Application.Interfaces;
 using Application.Wrappers;
 using UnitTests.Fixtures;
@@ -54,5 +55,26 @@ public class ProductQueriesTest
 
         Assert.False(response.Succeded);
         Assert.NotNull(response.Message);
+    }
+
+    [Fact]
+    public async Task GetAll_ReturnAllProducts()
+    {
+        var fakeProducts = ProductTestData.ProductListSample;
+        var fakeProductDtos = ProductTestData.ProductDtoListSample;
+
+        mockRepository.Setup(rep => rep.ListAsync())
+            .ReturnsAsync(fakeProducts);
+        mockMapper.Setup(m => m.Map<IEnumerable<ProductDto>>(fakeProducts))
+            .Returns(fakeProductDtos);
+        var handler = new GetAllProductsHandler(mockRepository.Object, mockMapper.Object);
+
+        var query = new GetAllProductsQuery();
+        var response = await handler.Handle(query, new CancellationToken());
+
+        Assert.True(response.Succeded);
+        Assert.NotNull(response.Data);
+        Assert.Equal(fakeProductDtos.Count(), response.Data.Count());
+        Assert.Equal(fakeProductDtos.First().Id, response.Data.First().Id);
     }
 }
