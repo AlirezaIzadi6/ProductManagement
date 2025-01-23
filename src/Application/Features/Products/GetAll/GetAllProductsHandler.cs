@@ -6,14 +6,11 @@ using Application.Interfaces;
 
 namespace Application.Features.Products.GetAll;
 
-public class GetAllProductsHandler : IRequestHandler<GetAllProductsQuery, Response<IEnumerable<ProductDto>>>
+public class GetAllProductsHandler : BaseProductQueryHandler, IRequestHandler<GetAllProductsQuery, Response<IEnumerable<ProductDto>>>
 {
-    private readonly IProductRepositoryAsync _repository;
-    private readonly IMapper _mapper;
     public GetAllProductsHandler(IProductRepositoryAsync repository, IMapper mapper)
+        : base(repository, mapper)
     {
-        _repository = repository;
-        _mapper = mapper;
     }
 
     public async Task<Response<IEnumerable<ProductDto>>> Handle(GetAllProductsQuery query, CancellationToken cancellationToken)

@@ -7,14 +7,11 @@ using Application.Wrappers;
 
 namespace Application.Features.Products.get;
 
-public class GetProductByIdHandler : IRequestHandler<GetProductByIdQuery, Response<ProductDto>>
+public class GetProductByIdHandler : BaseProductQueryHandler, IRequestHandler<GetProductByIdQuery, Response<ProductDto>>
 {
-    private readonly IProductRepositoryAsync _repository;
-    private readonly IMapper _mapper;
     public GetProductByIdHandler(IProductRepositoryAsync repository, IMapper mapper)
+        : base(repository, mapper)
     {
-        _repository = repository;
-        _mapper = mapper;
     }
 
     public async Task<Response<ProductDto>> Handle(GetProductByIdQuery query, CancellationToken cancellationToken)
