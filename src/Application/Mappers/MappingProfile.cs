@@ -12,8 +12,5 @@ public class MappingProfile : Profile
     {
         CreateMap<Product, ProductDto>().ReverseMap();
         CreateMap<CreateProductCommand, Product>();
-
-        CreateMap<ValidationFailure, string>()
-            .ForMember(desc => desc, opt => opt.MapFrom(src => src.ErrorMessage));
     }
 }
