@@ -30,7 +30,7 @@ public class ProductCommandsTest
             var fakeProductDto = ProductTestData.ProductDtoSample;
             mockRepository.Setup(rep => rep.CreateAsync(fakeProductWithoutId))
                 .ReturnsAsync(fakeProductWithId);
-            mockRepository.Setup(rep => rep.IsUnique(createProductCommand.Name, createProductCommand.ProduceDate))
+            mockRepository.Setup(rep => rep.IsUniqueAsync(createProductCommand.Name, createProductCommand.ProduceDate))
                 .ReturnsAsync(true);
             mockMapper.Setup(m => m.Map<Product>(createProductCommand))
                 .Returns(fakeProductWithoutId);
