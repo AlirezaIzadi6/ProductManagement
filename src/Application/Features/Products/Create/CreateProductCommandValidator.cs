@@ -39,6 +39,6 @@ public class CreateProductCommandValidator : AbstractValidator<CreateProductComm
 
     private async Task<bool> IsUnique(CreateProductCommand command, CancellationToken cancellationToken)
     {
-        return await _repository.IsUnique(command.Name, command.ProduceDate);
+        return await _repository.IsUniqueAsync(command.Name, command.ProduceDate);
     }
 }

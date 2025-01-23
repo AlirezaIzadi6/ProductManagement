@@ -3,19 +3,16 @@ using MediatR;
 using Domain.Entities;
 using Application.DTOs;
 using Application.Interfaces;
+using Application.Mappers;
 using Application.Wrappers;
 
 namespace Application.Features.Products.Create;
 
-public class CreateProductHandler : IRequestHandler<CreateProductCommand, Response<ProductDto>>
+public class CreateProductHandler : BaseProductCommandHandler, IRequestHandler<CreateProductCommand, Response<ProductDto>>
 {
-    private readonly IProductRepositoryAsync _repository;
-    private readonly IMapper _mapper;
-
     public CreateProductHandler(IProductRepositoryAsync repository, IMapper mapper)
+        : base(repository, mapper)
     {
-        _repository = repository;
-        _mapper = mapper;
     }
 
     public async Task<Response<ProductDto>> Handle(CreateProductCommand command, CancellationToken cancellationToken)
@@ -25,7 +22,7 @@ public class CreateProductHandler : IRequestHandler<CreateProductCommand, Respon
         if (!validationResult.IsValid)
         {
             var response = Response<ProductDto>.FailiorResponse;
-            response.Errors = _mapper.Map<List<string>>(validationResult.Errors);
+            response.Errors = ValidationFailureToString.GetList(validationResult.Errors);
             return response;
         }
 
