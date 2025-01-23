@@ -25,8 +25,14 @@ public class ProductRepositoryAsync : GenericRepositoryAsync<Product>, IProductR
             .ToListAsync();
     }
 
-    public async Task<bool> IsUnique(string name, DateOnly produceDate)
+    public async Task<bool> IsUniqueAsync(string name, DateOnly produceDate)
     {
-        return await _context.products.AnyAsync(p => p.Name == name && p.ProduceDate == produceDate);
+        return (await _context.products.AnyAsync(p => p.Name == name && p.ProduceDate == produceDate)) == false;
     }
+
+    public async Task<bool> IsUniqueAsync(string name, DateOnly produceDate, int id)
+    {
+        return (await _context.products.AnyAsync(p => p.Id != id && p.Name == name && p.ProduceDate == produceDate)) == false;
+    }
+
 }
