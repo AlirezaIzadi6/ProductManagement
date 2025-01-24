@@ -41,3 +41,6 @@ app.MapControllers();
 
 app.MapIdentityApi<IdentityUser>();
 app.Run();
+
+// To make integration tests work and reference Program class:
+public partial class Program { }
