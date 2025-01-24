@@ -14,18 +14,20 @@ public class ProductQueriesTest
 {
     private Mock<IProductRepositoryAsync> mockRepository;
     private Mock<IMapper> mockMapper;
+    private ProductTestData testData;
 
     public ProductQueriesTest()
     {
         mockRepository = new Mock<IProductRepositoryAsync>();
         mockMapper = new Mock<IMapper>();
+        testData = new ProductTestData();
     }
 
     [Fact]
     public async Task Get_WithExistingId_ReturnProduct()
     {
-        var fakeProduct = ProductTestData.ProductSample;
-        var fakeProductDto = ProductTestData.ProductDtoSample;
+        var fakeProduct = testData.GetProduct1();
+        var fakeProductDto = testData.GetDto(fakeProduct);
         int productId = fakeProduct.Id;
 
         mockRepository.Setup(rep => rep.GetByIdAsync(productId))
@@ -60,8 +62,8 @@ public class ProductQueriesTest
     [Fact]
     public async Task GetAll_ReturnAllProducts()
     {
-        var fakeProducts = ProductTestData.ProductListSample;
-        var fakeProductDtos = ProductTestData.ProductDtoListSample;
+        var fakeProducts = testData.GetProducts();
+        var fakeProductDtos = testData.GetDtos();
 
         mockRepository.Setup(rep => rep.ListAsync())
             .ReturnsAsync(fakeProducts);
