@@ -7,6 +7,8 @@ using AutoMapper;
 using Application;
 using Infrastructure;
 using Web;
+using Infrastructure.Persistence.Contexts;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +42,13 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.MapIdentityApi<IdentityUser>();
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    context.Database.Migrate();
+}
+
 app.Run();
 
 // To make integration tests work and reference Program class:
