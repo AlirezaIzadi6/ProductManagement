@@ -13,11 +13,7 @@ public class BaseControllersTest : IClassFixture<CustomWebApplicationFactory<Pro
 
     public HttpClient GetNewClient()
     {
-        var newClient = _factory.WithWebHostBuilder(builder =>
-        {
-            _factory.CustomConfigureServices(builder);
-        });
-
+        var newClient = _factory.CreateClient();
         return newClient;
     }
 }

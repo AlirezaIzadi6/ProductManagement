@@ -10,6 +10,7 @@ using UnitTests.Fixtures;
 
 namespace UnitTests.Application.Features.Products;
 
+[Collection("MyTests")]
 public class ProductQueriesTest
 {
     private Mock<IProductRepositoryAsync> mockRepository;

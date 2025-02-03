@@ -10,6 +10,7 @@ using Application.Features.Products.Update;
 
 namespace UnitTests.Application.Features.Products;
 
+[Collection("MyTests")]
 public class ProductCommandsTest
 {
     private readonly Mock<IProductRepositoryAsync> mockRepository;

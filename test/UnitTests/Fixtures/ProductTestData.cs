@@ -2,8 +2,9 @@
 using Domain.Entities;
 using Application.DTOs;
 using Application.Features.Products.Create;
-using UnitTests.Profiles;
 using Application.Features.Products.Update;
+using Web.DTOs;
+using UnitTests.Profiles;
 
 namespace UnitTests.Fixtures;
 
@@ -13,7 +14,7 @@ public class ProductTestData
 
     public ProductTestData()
     {
-        MapperConfiguration configuration = new MapperConfiguration(cfg => cfg.AddProfile(new MappingProfile()));
+        var configuration = new MapperConfiguration(cfg => cfg.AddProfile(new MappingProfile()));
         mapper = new Mapper(configuration);
     }
 
@@ -103,6 +104,26 @@ public class ProductTestData
     public UpdateProductCommand GetUpdateCommand(Product product)
     {
         return mapper.Map<UpdateProductCommand>(product);
+    }
+
+    public CreateProductDto GetCreateDto()
+    {
+        return mapper.Map<CreateProductDto>(product1);
+    }
+
+    public CreateProductDto GetCreateDto(Product product)
+    {
+        return mapper.Map<CreateProductDto>(product);
+    }
+
+    public UpdateProductDto GetUpdateDto()
+    {
+        return mapper.Map<UpdateProductDto>(product1);
+    }
+
+    public UpdateProductDto GetUpdateDto(Product product)
+    {
+        return mapper.Map<UpdateProductDto>(product);
     }
 
     public IEnumerable<Product> GetProducts()

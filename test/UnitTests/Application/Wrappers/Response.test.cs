@@ -3,6 +3,7 @@ using Application.Wrappers;
 
 namespace UnitTests.Application.Wrappers;
 
+[Collection("MyTests")]
 public class ResponseTest
 {
     [Fact]

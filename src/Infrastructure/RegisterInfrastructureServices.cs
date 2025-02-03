@@ -19,7 +19,7 @@ public static class RegisterInfrastructureServices
                 b => b.MigrationsAssembly("Infrastructure"));
         });
 
-        services.AddIdentity<IdentityUser, IdentityRole>()
+        services.AddIdentityApiEndpoints<IdentityUser>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 

@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
-using Infrastructure.Persistence.Contexts;
 using Microsoft.Extensions.DependencyInjection;
+using Infrastructure.Persistence.Contexts;
+using UnitTests.Fixtures;
 
 namespace FunctionalTests;
 
@@ -12,16 +14,16 @@ public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStar
     {
         builder.ConfigureServices(services =>
         {
-            var descriptor = services.SingleOrDefault(s => s.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
+            var descriptor1 = services.SingleOrDefault(s => s.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
 
-            if (descriptor != null)
+            if (descriptor1 != null)
             {
-                services.Remove(descriptor);
+                services.Remove(descriptor1);
             }
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseInMemoryDatabase("FunctionalTestsDatabase");
+                options.UseInMemoryDatabase("TestInMemoryDatabase");
             });
 
             var serviceProvider = services.BuildServiceProvider();
@@ -30,7 +32,9 @@ public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStar
             {
                 var scopedServices = scope.ServiceProvider;
                 var dbContext = scopedServices.GetRequiredService<ApplicationDbContext>();
-                dbContext.Database.EnsureCreated();
+                dbContext.Database.EnsureDeleted();
+                var userManager = scopedServices.GetRequiredService<UserManager<IdentityUser>>();
+                IdentityDataSeeder.SeedAsync(userManager).Wait();
             }
         });
     }
@@ -46,6 +50,6 @@ public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStar
                 var scopedServices = scope.ServiceProvider;
                 var dbContext = serviceProvider.GetRequiredService<ApplicationDbContext>();
             }
-        })
+        });
     }
 }

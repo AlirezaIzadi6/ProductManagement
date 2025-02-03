@@ -3,6 +3,7 @@ using Domain.Entities;
 using Application.DTOs;
 using Application.Features.Products.Create;
 using Application.Features.Products.Update;
+using Web.DTOs;
 
 namespace UnitTests.Profiles;
 
@@ -15,5 +16,7 @@ public class MappingProfile : Profile
         CreateMap<UpdateProductCommand, Product>()
             .ForMember(dest => dest.CreatedByUserId, opt => opt.MapFrom(src => src.RequestUserId))
             .ReverseMap();
+        CreateMap<CreateProductDto, Product>().ReverseMap();
+        CreateMap<UpdateProductDto, Product>().ReverseMap();
     }
 }
