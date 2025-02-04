@@ -43,14 +43,14 @@ app.MapControllers();
 
 app.MapIdentityApi<IdentityUser>();
 
-//using (var scope = app.Services.CreateScope())
-//{
-//    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-//    if (context.Database.IsRelational())
-//    {
-//        context.Database.Migrate();
-//    }
-//}
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    if (context.Database.IsRelational())
+    {
+        context.Database.Migrate();
+    }
+}
 
 app.Run();
 
