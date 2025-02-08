@@ -359,3 +359,6 @@ tempkey.jwk
 # documentation
 docs/TODO/*
 docs/bg/*
+
+# Certificate files
+*.pfx

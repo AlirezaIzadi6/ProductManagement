@@ -1,0 +1,29 @@
+services:
+  api:
+    build: .
+    container_name: api
+    volumes:
+      - ./web.pfx:/https/web.pfx
+    ports:
+      - "8000:8000"
+      - "8001:8001"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/web.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=Test123@
+    depends_on:
+      - sqlserver
+
+  sqlserver:
+    build: ./MsSql
+    container_name: sqlserver
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Test123@
+    volumes:
+      - sql_data:/var/opt/mssql/data
+
+volumes:
+  sql_data:

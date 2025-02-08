@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Threading;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -9,6 +10,7 @@ using Infrastructure;
 using Web;
 using Infrastructure.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,11 +50,26 @@ using (var scope = app.Services.CreateScope())
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     if (context.Database.IsRelational())
     {
-        context.Database.Migrate();
+        MigrateDb(context);
     }
 }
 
 app.Run();
 
-// To make integration tests work and reference Program class:
-public partial class Program { }
+public partial class Program
+{
+    public static void MigrateDb(ApplicationDbContext context)
+    {
+        try
+        {
+            context.Database.Migrate();
+        }
+        catch (SqlException ex) when (ex.Number == 1801)
+        {
+            Console.WriteLine("Retry in 10 seconds...");
+            Thread.Sleep(10000);
+            Console.WriteLine("Retrying...");
+            MigrateDb(context);
+        }
+    }
+}
