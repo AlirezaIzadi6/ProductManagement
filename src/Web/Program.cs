@@ -30,7 +30,7 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "DockerDevelopment")
 {
     app.UseSwagger();
     app.UseSwaggerUI();
@@ -66,9 +66,9 @@ public partial class Program
         }
         catch (SqlException ex) when (ex.Number == 1801)
         {
-            Console.WriteLine("Retry in 10 seconds...");
+            Console.WriteLine("Retry migration in 10 seconds...");
             Thread.Sleep(10000);
-            Console.WriteLine("Retrying...");
+            Console.WriteLine("Retrying migration...");
             MigrateDb(context);
         }
     }
