@@ -2,7 +2,7 @@
 using Infrastructure.Persistence.Contexts;
 using UnitTests.Models;
 
-namespace UnitTests.Fixtures;
+namespace UnitTests.Fixtures.Seeders;
 
 public static class IdentityDataSeeder
 {
@@ -11,7 +11,6 @@ public static class IdentityDataSeeder
         var testData = new UserTestData();
         var testUserInfo1 = testData.GetUser1();
         var testUserInfo2 = testData.GetUser2();
-
         var testUser1 = new IdentityUser
         {
             Id = testUserInfo1.Id,

@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using Newtonsoft.Json;
 
-namespace FunctionalTests.Helpers;
+namespace UnitTests.Helpers;
 
 public static class JsonHelper
 {
@@ -14,6 +14,13 @@ public static class JsonHelper
     {
         var contentString = await content.ReadAsStringAsync();
         var obj = JsonConvert.DeserializeObject<T>(contentString);
+        return obj;
+    }
+
+    public static async Task<T> ExtractJsonData<T>(string filePath)
+    {
+        var fileContent = await File.ReadAllTextAsync(filePath);
+        var obj = JsonConvert.DeserializeObject<T>(fileContent);
         return obj;
     }
 }

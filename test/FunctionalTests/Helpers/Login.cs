@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.BearerToken;
 using Microsoft.AspNetCore.Identity.Data;
 using UnitTests.Fixtures;
+using UnitTests.Helpers;
 using UnitTests.Models;
 
 namespace FunctionalTests.Helpers;

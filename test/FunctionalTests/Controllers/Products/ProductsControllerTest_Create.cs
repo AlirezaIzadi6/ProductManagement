@@ -2,17 +2,19 @@
 using Application.DTOs;
 using Web.DTOs;
 using UnitTests.Fixtures;
+using UnitTests.Helpers;
 using FunctionalTests.Helpers;
 
 namespace FunctionalTests.Controllers.Products;
 
-public class CreateProductsControllerTest : ProductsControllerTest
+[Collection("MyTests")]
+public class ProductsControllerTest_Create : ProductsControllerTest
 {
     private readonly HttpClient client;
     private readonly CreateProductDto request;
     private readonly string requestUrl = "/api/products";
 
-    public CreateProductsControllerTest(CustomWebApplicationFactory<Program> factory)
+    public ProductsControllerTest_Create(CustomWebApplicationFactory<Program> factory)
         : base(factory)
     {
         request = productTestData.GetCreateDto();

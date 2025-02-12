@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Infrastructure.Persistence.Contexts;
-using UnitTests.Fixtures;
+using UnitTests.Fixtures.Seeders;
 
 namespace FunctionalTests;
 
@@ -23,7 +23,7 @@ public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStar
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseInMemoryDatabase("TestInMemoryDatabase");
+                options.UseInMemoryDatabase(new Guid().ToString());
             });
 
             var serviceProvider = services.BuildServiceProvider();
@@ -35,6 +35,7 @@ public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStar
                 dbContext.Database.EnsureDeleted();
                 var userManager = scopedServices.GetRequiredService<UserManager<IdentityUser>>();
                 IdentityDataSeeder.SeedAsync(userManager).Wait();
+                DataSeeder.SeedAsync(dbContext).Wait();
             }
         });
     }
