@@ -79,4 +79,26 @@ public class ProductQueriesTest
         Assert.Equal(fakeProductDtos.Count(), response.Data.Count());
         Assert.Equal(fakeProductDtos.First().Id, response.Data.First().Id);
     }
+
+    [Fact]
+    public async Task GetByUserId_ReturnProducts()
+    {
+        var fakeProducts = testData.GetProducts();
+        var fakeProductDtos = testData.GetDtos();
+        var creatorUserId = fakeProducts.First().CreatedByUserId;
+
+        mockRepository.Setup(rep => rep.GetProductsByCreatorAsync(creatorUserId))
+            .ReturnsAsync(fakeProducts);
+        mockMapper.Setup(m => m.Map<IEnumerable<ProductDto>>(fakeProducts))
+            .Returns(fakeProductDtos);
+        var handler = new GetAllProductsHandler(mockRepository.Object, mockMapper.Object);
+
+        var query = new GetAllProductsQuery { CreatedByUserId = creatorUserId };
+        var response = await handler.Handle(query, new CancellationToken());
+
+        Assert.True(response.Succeded);
+        Assert.NotNull(response.Data);
+        Assert.Equal(fakeProductDtos.Count(), response.Data.Count());
+        Assert.Equal(fakeProductDtos.First().Id, response.Data.First().Id);
+    }
 }
